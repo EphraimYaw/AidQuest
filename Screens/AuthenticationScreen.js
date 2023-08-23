@@ -14,28 +14,39 @@ import {
 	signInWithEmailAndPassword,
 	createUserWithEmailAndPassword,
 } from "firebase/auth";
-import {FIREBASE_AUTH} from "../firebase";
+import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../firebase";
 
 const AuthenticationScreen = () => {
 	const [showRegistration, setShowRegistration] = useState(false);
 	const [acceptTerms, setAcceptTerms] = useState(false);
 	const navigation = useNavigation();
 
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
+	// const [firstName, setFirstName] = useState("");
+	// const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const auth = FIREBASE_AUTH;
+	const db = FIREBASE_DATABASE; // Reference to Firebase Realtime Database
 
 	// Loading
 	const [loading, setLoading] = useState("");
 
-	const handleSignIn = () => {
+	const handleSignIn = async () => {
 		// Logic for sign-in with email and password
+		setLoading(true);
+		try {
+			const response = await signInWithEmailAndPassword(auth, email, password);
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+			alert("Sign in failed");
+		} finally {
+			setLoading(false);
+		}
 
 		// Navigate to the Home screen
-		navigation.navigate("HomeScreen");
+		// navigation.navigate("HomeScreen");
 	};
 
 	const handleSignInWithGoogle = () => {
@@ -50,8 +61,35 @@ const AuthenticationScreen = () => {
 		setShowRegistration(true);
 	};
 
-	const handleRegister = () => {
+	const handleRegister = async () => {
 		// Logic for user registration
+
+		setLoading(true);
+		try {
+			// Create the user with email and password
+			const response = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+
+			// Get the user's UID from the response
+			const uid = response.user.uid;
+
+			// Store additional user data (username and full name) in Firebase
+			await db.ref(`users/${uid}`).set({
+				username: username,
+				fullName: fullName,
+			});
+
+			console.log(response);
+			alert("Account created successfully!");
+		} catch (error) {
+			console.log(error);
+			alert("Registration failed");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const handleBack = () => {
@@ -64,21 +102,21 @@ const AuthenticationScreen = () => {
 			<View style={styles.container}>
 				<Text style={styles.title}>Begin your experience</Text>
 
-				<TextInput
+				{/* <TextInput
 					style={styles.input}
 					placeholder="First Name"
 					autoCapitalize="none"
 					onChangeText={(newFirstName) => setFirstName(newFirstName)}
 					value={firstName}
-				/>
+				/> */}
 
-				<TextInput
+				{/* <TextInput
 					style={styles.input}
 					placeholder="Last Name"
 					autoCapitalize="none"
 					onChangeText={(newLastName) => setLastName(newLastName)}
 					value={lastName}
-				/>
+				/> */}
 
 				<TextInput
 					style={styles.input}
@@ -93,14 +131,14 @@ const AuthenticationScreen = () => {
 					placeholder="Password"
 					secureTextEntry
 					onChangeText={(newPassword) => setPassword(newPassword)}
-					value={email}
+					value={password}
 				/>
 
-				<TextInput
+				{/* <TextInput
 					style={styles.input}
 					placeholder="Confirm Password"
 					secureTextEntry
-				/>
+				/> */}
 
 				<View style={styles.checkboxContainer}>
 					<TouchableOpacity
@@ -144,9 +182,17 @@ const AuthenticationScreen = () => {
 				style={styles.input}
 				placeholder="Email Address"
 				autoCapitalize="none"
+				onChangeText={(newEmail) => setEmail(newEmail)}
+				value={email}
 			/>
 
-			<TextInput style={styles.input} placeholder="Password" secureTextEntry />
+			<TextInput
+				style={styles.input}
+				placeholder="Password"
+				secureTextEntry
+				onChangeText={(newPassword) => setPassword(newPassword)}
+				value={password}
+			/>
 
 			<TouchableOpacity style={styles.button} onPress={handleSignIn}>
 				<Text style={styles.buttonText}>Sign In</Text>
