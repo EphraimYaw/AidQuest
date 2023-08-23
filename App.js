@@ -13,41 +13,58 @@ import MedicalFacilitiesScreen from './Screens/MedicalFacilitiesScreen';
 const Stack = createStackNavigator();
 
 const App = () => {
+	const [user, setUser] = useState("");
 
+	useEffect(() => {
+		onAuthStateChanged(FIREBASE_AUTH, (user) => {
+			console.log("user", user);
+			setUser(user);
+		});
+	}, []);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {/* Set the initial route to the SplashScreen */}
-        <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
+	return (
+		<NavigationContainer>
+			<Stack.Navigator initialRouteName="Authentication">
+				{/* Set the initial route to the SplashScreen */}
 
-        <Stack.Screen
-          name="GetStartedScreen"
-          component={GetStartedScreen}
-          options={{ headerShown: false }}
-        />
+				{user ? (
+					<Stack.Screen
+						name="HomeScreen"
+						component={HomeScreen}
+						options={{headerShown: false}}
+					/>
+				) : (
+					<>
+						<Stack.Screen
+							name="SplashScreen"
+							component={SplashScreen}
+							options={{headerShown: false}}
+						/>
+						<Stack.Screen
+							name="GetStartedScreen"
+							component={GetStartedScreen}
+							options={{headerShown: false}}
+						/>
 
-        <Stack.Screen
-          name="AuthenticationScreen"
-          component={AuthenticationScreen}
-          options={{ headerShown: false }}
-        />
+						<Stack.Screen
+							name="AuthenticationScreen"
+							component={AuthenticationScreen}
+							options={{headerShown: false}}
+						/>
+					</>
+				)}
 
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
+				<Stack.Screen
+					name="SymptomChecker"
+					component={SymptomCheckerScreen}
+					options={{headerShown: false}}
+				/>
 
-        <Stack.Screen
-          name="SymptomChecker"
-          component={SymptomCheckerScreen}
-          options={{ headerShown: false }}
-        />
+				<Stack.Screen
+					name="ConditionDetail"
+					component={ConditionDetailScreen}
+					options={{headerShown: false}}
+				/>
 
         <Stack.Screen
           name="ConditionDetail"
