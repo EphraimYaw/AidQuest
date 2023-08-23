@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useFonts } from 'expo-font';
-import SplashScreen from './Screens/SplashScreen';
-import GetStartedScreen from './Screens/GetStartedScreen';
-import AuthenticationScreen from './Screens/AuthenticationScreen';
-import HomeScreen from './Screens/HomeScreen';
-import SymptomCheckerScreen from './Screens/SymptomCheckerScreen';
-import ConditionDetailScreen from './Screens/ConditionDetailScreen';
-import MedicalFacilitiesScreen from './Screens/MedicalFacilitiesScreen';
+import React, {useEffect, useState} from "react";
+import {NavigationContainer} from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import {useFonts} from "expo-font";
+import SplashScreen from "./Screens/SplashScreen";
+import GetStartedScreen from "./Screens/GetStartedScreen";
+import AuthenticationScreen from "./Screens/AuthenticationScreen";
+import HomeScreen from "./Screens/HomeScreen";
+import SymptomCheckerScreen from "./Screens/SymptomCheckerScreen";
+import ConditionDetailScreen from "./Screens/ConditionDetailScreen";
+import MedicalFacilitiesScreen from "./Screens/MedicalFacilitiesScreen";
+
+// firebase
+import {FIREBASE_AUTH} from "./firebase";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 
 const Stack = createStackNavigator();
 
@@ -65,20 +69,14 @@ const App = () => {
 					component={ConditionDetailScreen}
 					options={{headerShown: false}}
 				/>
-
-        <Stack.Screen
-          name="ConditionDetail"
-          component={ConditionDetailScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MedicalFacilities"
-          component={MedicalFacilitiesScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+				<Stack.Screen
+					name="MedicalFacilities"
+					component={MedicalFacilitiesScreen}
+					options={{headerShown: false}}
+				/>
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
 };
 
 export default App;

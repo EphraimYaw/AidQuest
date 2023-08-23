@@ -1,12 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, LinearGradient  } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
-import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
+import React, {useEffect, useState, useRef} from "react";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Image,
+	LinearGradient,
+} from "react-native";
+import Carousel from "react-native-snap-carousel";
+import {useNavigation} from "@react-navigation/native"; // Import useNavigation
+import CustomNavBar from "../Components/Customnavbar"; // Adjust the import path
 
-import { MaterialIcons } from '@expo/vector-icons';
+import {MaterialIcons} from "@expo/vector-icons";
 
-const API_KEY = '41c80afea5774082957131d941028885';
+const API_KEY = "41c80afea5774082957131d941028885";
 
 const HomeScreen = () => {
 	const [healthNews, setHealthNews] = useState([]);
@@ -84,19 +91,9 @@ const HomeScreen = () => {
 				</TouchableOpacity>
 			</View>
 
-        {/* Weather Container */}
-        {/* Add weather container content */}
-        
-        <View style={styles.squarecontainer}>
-          <Text style={styles.caption}>Take a Gentle Step Towards Wellness</Text>
-          <Image
-            source={require('../assets/..')} // Provide the actual path to your image
-            style={styles.image}
-          />
-          <TouchableOpacity style={styles.button} onPress={handleCheckSymptoms}>
-            <Text style={styles.buttonText}>Check Symptoms</Text>
-          </TouchableOpacity>
-        </View>
+			{/* Weather Container */}
+			{/* Add weather container content */}
+
 			<View style={styles.content}>
 				<Text style={styles.greeting}>Hello James</Text>
 				<Text style={styles.lightText}>
@@ -135,204 +132,6 @@ const HomeScreen = () => {
 	);
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6F8FF', // Update to your light gray color
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 60,
-  },
-  menuButton: {
-    padding: 2,
-    borderRadius: 8,
-    borderColor: '#D3D3D3', // Update to your light gray color
-    borderWidth: 0.5,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-  },
-  greeting: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginTop: 24,
-  },
-  lightText: {
-    fontSize: 14,
-    color: '#888888', // Update to your teal color
-    marginBottom: 24,
-  },
-  
-
-  squarecontainer: {
-    backgroundColor: '#ADD8E6',
-    borderRadius: 20,
-    padding: 20, // Adjusted padding
-    marginBottom: 16, // Adjusted margin
-    alignItems: 'flex-start',
-    borderColor: '#D3D3D3',
-    borderWidth: 0.5,
-  },
-  caption: {
-    fontSize: 22, // Adjusted font size
-    fontWeight:'800',
-    marginBottom: 20, // Adjusted margin
-    textAlign: 'left',
-    maxWidth: 150, // Adjusted maximum width
-    color: 'white', // Adjusted text color
-  },
-  button: {
-    backgroundColor: '#4682B4',
-    padding: 10, // Adjusted padding
-    borderRadius: 20,
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    marginTop: -5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 14, // Adjusted font size
-    fontWeight: 'bold',
-  },
-
-  
-  newsTitle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  newsCard: {
-    borderRadius: 8,
-    overflow: 'hidden',
-    marginRight: 16,
-  },
-
-newsImage: {
-    width: 200,
-    height: 200,
-    resizeMode: 'cover',
-  },
-  newsOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'white', // Change overlay background to white with some opacity
-    padding: 20,
-  },
-  newsItemCaption: {
-    fontSize: 14,
-    color: 'black', // Change text color to black
-  },
-  newsTime: {
-    fontSize: 12,
-    color: 'black', // Change text color to black
-    marginTop: 4,
-  },
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#F6F8FF',
-//   },
-//   header: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingHorizontal: 16,
-//     paddingTop: 60,
-//   },
-//   menuButton: {
-//     padding: 2,
-//     borderRadius: 8,
-//     borderColor: '#D3D3D3',
-//     borderWidth: 0.5,
-//   },
-//   content: {
-//     flex: 1,
-//     paddingHorizontal: 16,
-//     paddingBottom: 16,
-//   },
-//   greeting: {
-//     fontSize: 32,
-//     fontWeight: 'bold',
-//     marginTop: 24,
-//   },
-//   lightText: {
-//     fontSize: 14,
-//     color: '#888888',
-//     marginBottom: 24,
-//   },
-//   squarecontainer: {
-//     backgroundColor: 'white',
-//     borderRadius: 8,
-//     padding: 10,
-//     marginBottom: 24,
-//     alignItems: 'flex-start',
-//     borderColor: '#D3D3D3',
-//     borderWidth: 0.5,
-//   },
-//   caption: {
-//     fontSize: 25,
-//     fontWeight: 'bold',
-//     marginBottom: 16,
-//     textAlign: 'left',
-//     maxWidth: 200,
-//   },
-//   button: {
-//     backgroundColor: '#007AFF',
-//     padding: 12,
-//     borderRadius: 8,
-//     alignItems: 'center',
-//     alignSelf: 'flex-start',
-//     marginTop: -5,
-//   },
-//   buttonText: {
-//     color: '#FFFFFF',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   newsContainer: {
-//     marginTop: 0,
-//   },
-//   newsTitle: {
-//     fontSize: 25,
-//     fontWeight: 'bold',
-//     marginBottom: 16,
-//   },
-//   newsCard: {
-//     borderRadius: 8,
-//     overflow: 'hidden',
-//     marginRight: 16,
-//   },
-//   newsImage: {
-//     width: 200,
-//     height: 120,
-//     resizeMode: 'cover',
-//   },
-//   newsOverlay: {
-//     position: 'absolute',
-//     bottom: 0,
-//     left: 0,
-//     right: 0,
-//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//     padding: 8,
-//   },
-//   newsItemCaption: {
-//     fontSize: 14,
-//     color: '#FFFFFF',
-//   },
-//   newsTime: {
-//     fontSize: 12,
-//     color: '#FFFFFF',
-//     marginTop: 4,
-//   },
-// });
-
-const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#F6F8FF", // Update to your light gray color
@@ -365,38 +164,38 @@ const styles = StyleSheet.create({
 		color: "#888888", // Update to your teal color
 		marginBottom: 24,
 	},
+
 	squarecontainer: {
-		backgroundColor: "white",
-		borderRadius: 8,
-		padding: 10,
-		marginBottom: 24,
+		backgroundColor: "#ADD8E6",
+		borderRadius: 20,
+		padding: 20, // Adjusted padding
+		marginBottom: 16, // Adjusted margin
 		alignItems: "flex-start",
-		borderColor: "#D3D3D3", // Update to your light gray color
+		borderColor: "#D3D3D3",
 		borderWidth: 0.5,
 	},
 	caption: {
-		fontSize: 25,
-		fontWeight: "bold",
-		marginBottom: 16,
+		fontSize: 22, // Adjusted font size
+		fontWeight: "800",
+		marginBottom: 20, // Adjusted margin
 		textAlign: "left",
-		maxWidth: 200,
+		maxWidth: 150, // Adjusted maximum width
+		color: "white", // Adjusted text color
 	},
 	button: {
-		backgroundColor: "#007AFF", // Update to your teal color
-		padding: 12,
-		borderRadius: 8,
+		backgroundColor: "#4682B4",
+		padding: 10, // Adjusted padding
+		borderRadius: 20,
 		alignItems: "center",
 		alignSelf: "flex-start",
 		marginTop: -5,
 	},
 	buttonText: {
-		color: "#FFFFFF", // Update to your white color
-		fontSize: 16,
+		color: "#FFFFFF",
+		fontSize: 14, // Adjusted font size
 		fontWeight: "bold",
 	},
-	newsContainer: {
-		marginTop: 0,
-	},
+
 	newsTitle: {
 		fontSize: 25,
 		fontWeight: "bold",
@@ -407,9 +206,10 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		marginRight: 16,
 	},
+
 	newsImage: {
 		width: 200,
-		height: 120,
+		height: 200,
 		resizeMode: "cover",
 	},
 	newsOverlay: {
@@ -417,16 +217,16 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
-		padding: 8,
+		backgroundColor: "white", // Change overlay background to white with some opacity
+		padding: 20,
 	},
 	newsItemCaption: {
 		fontSize: 14,
-		color: "#FFFFFF", // Update to your white color
+		color: "black", // Change text color to black
 	},
 	newsTime: {
 		fontSize: 12,
-		color: "#FFFFFF", // Update to your white color
+		color: "black", // Change text color to black
 		marginTop: 4,
 	},
 });
