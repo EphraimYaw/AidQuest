@@ -28,42 +28,32 @@ const App = () => {
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Authentication">
-				{/* Set the initial route to the SplashScreen */}
-
-				{user ? (
-					<Stack.Screen
-						name="HomeScreen"
-						component={HomeScreen}
-						options={{headerShown: false}}
-					/>
-				) : (
-					<>
-						<Stack.Screen
-							name="SplashScreen"
-							component={SplashScreen}
-							options={{headerShown: false}}
-						/>
-						<Stack.Screen
-							name="GetStartedScreen"
-							component={GetStartedScreen}
-							options={{headerShown: false}}
-						/>
-
-						<Stack.Screen
-							name="AuthenticationScreen"
-							component={AuthenticationScreen}
-							options={{headerShown: false}}
-						/>
-					</>
-				)}
-
+			<Stack.Navigator initialRouteName="HomeScreen">
+				<Stack.Screen
+					name="HomeScreen"
+					component={HomeScreen}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="SplashScreen"
+					component={SplashScreen}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="GetStartedScreen"
+					component={GetStartedScreen}
+					options={{headerShown: false}}
+				/>
+				<Stack.Screen
+					name="AuthenticationScreen"
+					component={AuthenticationScreen}
+					options={{headerShown: false}}
+				/>
 				<Stack.Screen
 					name="SymptomChecker"
 					component={SymptomCheckerScreen}
 					options={{headerShown: false}}
 				/>
-
 				<Stack.Screen
 					name="ConditionDetail"
 					component={ConditionDetailScreen}
