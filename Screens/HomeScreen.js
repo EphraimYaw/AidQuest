@@ -1,12 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, LinearGradient  } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
-import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
+import React, {useEffect, useState, useRef} from "react";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Image,
+	LinearGradient,
+} from "react-native";
+import Carousel from "react-native-snap-carousel";
+import {useNavigation} from "@react-navigation/native"; // Import useNavigation
+import CustomNavBar from "../Components/Customnavbar"; // Adjust the import path
 
-import { MaterialIcons } from '@expo/vector-icons';
+import {MaterialIcons} from "@expo/vector-icons";
 
-const API_KEY = '41c80afea5774082957131d941028885';
+const API_KEY = "41c80afea5774082957131d941028885";
 
 const HomeScreen = () => {
 	const [healthNews, setHealthNews] = useState([]);
