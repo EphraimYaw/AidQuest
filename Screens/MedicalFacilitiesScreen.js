@@ -1,40 +1,70 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import Carousel from 'react-native-snap-carousel';
 import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
 
-const App = () => {
-  const carouselItems = [
-    { title: 'Item 1' },
-    { title: 'Item 2' },
-    { title: 'Item 3' },
-    // Add more items as needed
-  ];
+const apiKey = 'AIzaSyCa_bWN-0wh_Zishi1-Fea2HjA6hkG0mYI';
 
-  const renderCarouselItem = ({ item }) => (
-    <View style={styles.carouselItem}>
-      <Text style={styles.carouselItemText}>{item.title}</Text>
-    </View>
-  );
+export default function App() {
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [healthFacilities, setHealthFacilities] = useState([]);
 
-  const basicHealthFacilities = [
-    'Emergency Room',
-    'Pharmacy',
-    'Laboratory',
-    'Radiology',
-    'ICU',
-    'Outpatient Services',
-    // Add more basic health facilities as needed
-  ];
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
 
-  const nearbyHealthFacilities = [
-    'Clinic',
-    'Urgent Care Center',
-    'Dental Clinic',
-    'Medical Imaging Center',
-    // Add more nearby health facilities as needed
-  ];
+      let { coords } = await Location.getCurrentPositionAsync();
+      setLocation(coords);
+
+      if (coords) {
+        let { longitude, latitude } = coords;
+
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&keyword=clinic&key=${apiKey}`
+        );
+        const data = await response.json();
+
+        setHealthFacilities(data.results);
+
+        // Fetch and set the address using reverse geocoding
+        const addressResponse = await Location.reverseGeocodeAsync({ latitude, longitude });
+        setAddress(addressResponse.length > 0 ? addressResponse[0] : null);
+      }
+    })();
+  }, []);
+
+  const HealthFacilityCard = ({ item }) => {
+    const [photoUrl, setPhotoUrl] = useState(null);
+
+    useEffect(() => {
+      const fetchPhoto = async () => {
+        if (item.photos && item.photos.length > 0) {
+          const photoReference = item.photos[0].photo_reference;
+          const response = await fetch(
+            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${apiKey}`
+          );
+          setPhotoUrl(response.url);
+        }
+      };
+
+      fetchPhoto();
+    }, [item]);
+
+    return (
+      <View style={styles.healthFacilityCard}>
+        {photoUrl && <Image source={{ uri: photoUrl }} style={styles.healthFacilityImage} />}
+        <Text style={styles.healthFacilityName}>{item.name}</Text>
+        <Text style={styles.healthFacilityAddress}>{item.vicinity}</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -42,67 +72,24 @@ const App = () => {
         <Text style={styles.locationText}>Your Location</Text>
         <View style={styles.currentLocationContainer}>
           <MaterialIcons name="location-on" size={16} style={styles.locationIcon} />
-          <Text style={styles.currentLocationText}>Current Location</Text>
+          <Text style={styles.currentLocationText}>
+            {address ? `${address.subregion}, ${address.region}` : 'Fetching address...'}
+          </Text>
         </View>
-        <View style={styles.searchBarContainer}>
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Search for a location"
-            // Add any necessary onChangeText or onSubmitEditing handlers here
-          />
-          <TouchableOpacity style={styles.filterButton}>
-            <MaterialIcons name="filter-list" size={24} color="#fff" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerCaption}>Places</Text>
-          <TouchableOpacity style={styles.seeAllTouchable}>
-            <Text style={styles.seeAllText}>See All</Text>
-          </TouchableOpacity>
-        </View>
-        
-        {/* Carousel */}
-        <Carousel
-          data={carouselItems}
-          renderItem={renderCarouselItem}
-          sliderWidth={300} // Customize based on your design
-          itemWidth={200} // Customize based on your design
-          inactiveSlideShift={0} // Set to 0 for smooth sliding
-          inactiveSlideScale={1} // Set to 1 for no scaling of inactive slides
-        />
 
-        {/* Health Facilities */}
-        <Text style={styles.healthFacilitiesText}>Health Facilities</Text>
-        
-        {/* Basic Health Facilities Carousel */}
+        <Text style={styles.carouselCaption}>Explore</Text>
         <Carousel
-          data={basicHealthFacilities}
-          renderItem={({ item }) => (
-            <View style={styles.basicHealthFacilityItem}>
-              <Text style={styles.basicHealthFacilityText}>{item}</Text>
-            </View>
-          )}
-          sliderWidth={300} // Customize based on your design
-          itemWidth={150} // Customize based on your design
-          inactiveSlideShift={0} // Set to 0 for smooth sliding
-          inactiveSlideScale={1} // Set to 1 for no scaling of inactive slides
-        />
-        
-        {/* Nearby Health Facilities */}
-        <Text style={styles.nearbyHealthFacilitiesText}>Nearby Hospital</Text>
-        <Carousel
-          data={nearbyHealthFacilities}
-          renderItem={renderCarouselItem}
-          sliderWidth={300} // Customize based on your design
-          itemWidth={200} // Customize based on your design
-          inactiveSlideShift={0} // Set to 0 for smooth sliding
-          inactiveSlideScale={1} // Set to 1 for no scaling of inactive slides
+          data={healthFacilities}
+          renderItem={HealthFacilityCard}
+          sliderWidth={300}
+          itemWidth={200}
         />
       </View>
       <CustomNavBar />
+
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -130,81 +117,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 0,
   },
-  searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  carouselCaption: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 30,
+    fontWeight: '600',
     marginTop: 20,
+    marginBottom: 10,
   },
-  searchBar: {
-    flex: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    fontSize: 16,
-  },
-  filterButton: {
-    backgroundColor: '#007AFF',
+  healthFacilityCard: {
+    backgroundColor: 'white',
+    borderRadius: 10,
     padding: 10,
-    borderRadius: 8,
-    marginLeft: 10,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginBottom: 10,
     alignItems: 'center',
-    marginTop: 20,
   },
-  headerCaption: {
+  healthFacilityImage: {
+    width: 180,
+    height: 120,
+    borderRadius: 10,
+  },
+  healthFacilityName: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 18,
-  },
-  seeAllTouchable: {
-    flex: 1, // Expand to the right
-  },
-  seeAllText: {
-    fontFamily: 'Poppins-Regular',
     fontSize: 16,
-    color: '#007AFF', // Set text color to match your design
-    textAlign: 'right', // Align the text to the right
-  },
-  carouselItem: {
-    backgroundColor: '#ddd', // Customize based on your design
-    borderRadius: 8,
-    padding: 50,
-    marginTop: 20,
-    marginHorizontal: 10, 
-  },
-  carouselItemText: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 16,
-    color: '#333', // Customize based on your design
-  },
-  healthFacilitiesText: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 18,
     marginTop: 10,
   },
-  basicHealthFacilityItem: {
-    backgroundColor: '#f0f0f0', // Customize based on your design
-    borderRadius: 8,
-    padding: 10,
-    marginTop: 20,
-    marginHorizontal: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  basicHealthFacilityText: {
+  healthFacilityAddress: {                                                                                                                                        
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
-    color: '#333', // Customize based on your design
-  },
-  nearbyHealthFacilitiesText: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 18,
-    marginTop: 10,
+    color: 'gray',
+    marginTop: 5,
   },
 });
-
-export default App;

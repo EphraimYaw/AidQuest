@@ -1,88 +1,107 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import CustomNavBar from '../Components/Customnavbar';
+import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
 
-const SymptomCheckerScreen = () => {
-  const [selectedSymptom, setSelectedSymptom] = useState(null);
-  const [symptoms, setSymptoms] = useState([]); // State for storing symptoms
-  const navigation = useNavigation();
+const SymptomCheckerScreen= ({ navigation }) => {
+  const [showConfirmation, setShowConfirmation] = useState(true); // Start with the confirmation prompt
 
-  useEffect(() => {
-    fetchSymptoms(); // Fetch symptoms when the component mounts
-  }, []);
-
-  const fetchSymptoms = async () => {
-    try {
-      // Replace 'YOUR_API_KEY' with your actual API key from API Medic Live
-      const apiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRlcGdyb3VwMDNAZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI5NDY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy92ZXJzaW9uIjoiMTA5IiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9saW1pdCI6IjEwMCIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbWVtYmVyc2hpcCI6IkJhc2ljIiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9sYW5ndWFnZSI6ImVuLWdiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjA5OS0xMi0zMSIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbWVtYmVyc2hpcHN0YXJ0IjoiMjAyMy0wNC0wNyIsImlzcyI6Imh0dHBzOi8vYXV0aHNlcnZpY2UucHJpYWlkLmNoIiwiYXVkIjoiaHR0cHM6Ly9oZWFsdGhzZXJ2aWNlLnByaWFpZC5jaCIsImV4cCI6MTY5Mjc4MDQ4NSwibmJmIjoxNjkyNzczMjg1fQ.X7Bt5BPJ3ojMb9g14hystEZLNnQWG4Pm4s9A1vbfcCg';
-      const response = await fetch(`https://healthservice.priaid.ch/symptoms`);
-      if (response.ok) {
-        const data = await response.json();
-        setSymptoms(data); // Update the symptoms state with fetched data
-      } else {
-        console.error('API request failed:', response.status);
-      }
-    } catch (error) {
-      console.error('An error occurred while fetching symptoms:', error);
-    }
+  const handleProceed = () => {
+    setShowConfirmation(true); // Just in case user navigates back and forth
+    navigateToNextScreen();
   };
 
-  // Rest of the component code remains the same
+  const handleCancel = () => {
+    // Handle cancel action (e.g., navigate back or exit the app)
+    // For demonstration, let's navigate back in this example
+    navigation.goBack();
+  };
+
+  const navigateToNextScreen = () => {
+    // Navigate to the next screen (e.g., BasicInformationScreen)
+    navigation.navigate('Symptomquestionnaire');
+  };
 
   return (
     <View style={styles.container}>
-      {/* Rest of the component JSX */}
+      {/* Content View */}
+      <View style={styles.contentView}>
+        <Text style={styles.title}>
+          This app helps you understand your symptoms, but it's not a substitute for professional medical advice.
+        </Text>
+        {showConfirmation && (
+          <View>
+            <Text style={styles.subtitle}>Do you want to proceed?</Text>
+            <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={handleProceed} style={[styles.button, styles.proceedButton]}>
+                <Text style={[styles.buttonText, styles.proceedButtonText]}>Yes, Proceed</Text>
+              </TouchableOpacity>
+              <View style={styles.buttonSpacing} />
+              <TouchableOpacity onPress={handleCancel} style={[styles.button, styles.cancelButton]}>
+                <Text style={[styles.buttonText, styles.cancelButtonText]}>Cancel</Text>
+              </TouchableOpacity>
+              
+            </View>
+          </View>
+        )}
+      </View>
+
+      {/* Custom NavBar */}
+      <CustomNavBar />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F8FF',
   },
-  content: {
+  contentView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  heading: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  symptomList: {
-    width: '80%',
-  },
-  symptomItem: {
-    padding: 10,
+  title: {
+    fontSize: 24,
     marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    backgroundColor: '#fff',
-  },
-  selectedSymptomItem: {
-    backgroundColor: '#3F51B5', // Update to your selected color
-  },
-  symptomText: {
-    fontSize: 16,
-    fontWeight: 'bold',
     textAlign: 'center',
-    color: '#333',
   },
-  nextButton: {
-    backgroundColor: '#3F51B5',
-    padding: 10,
-    borderRadius: 8,
-    alignSelf: 'flex-end',
-    marginTop: 20,
+  subtitle: {
+    fontSize: 24,
+    marginBottom: 40,
+    textAlign: 'center',
   },
-  nextButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  buttonContainer: {
+    flexDirection: 'row', // Arrange buttons horizontally
+    justifyContent: 'center', // Center buttons
+    alignItems: 'center', // Align buttons vertically
+  },
+  buttonSpacing: {
+    width: 20, // Add spacing width
+  },
+  button: {
+    paddingVertical: 20, // Adjust padding
+    paddingHorizontal: 40, // Adjust padding
+    borderRadius: 40, // Make buttons rounded
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 16, // Adjust font size
+    fontWeight: 'bold', // Make text bold
+  },
+  cancelButton: {
+    borderColor: 'red', // Red border color
+    borderWidth: 1, // Add border
+    backgroundColor: '#fff', // Change background color
+  },
+  cancelButtonText: {
+    color: 'red', // Red text color
+  },
+  proceedButton: {
+    backgroundColor: '#4682B4', // Blue background color
+  },
+  proceedButtonText: {
+    color: 'white', // White text color
   },
 });
 
