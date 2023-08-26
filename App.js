@@ -10,6 +10,7 @@ import SymptomCheckerScreen from "./Screens/SymptomCheckerScreen";
 import Symptomquestionnaire from "./Screens/Symptomquestionnaire";
 import DiagnosisResultScreen from "./Screens/DiagnosisResultScreen";
 import MedicalFacilitiesScreen from "./Screens/MedicalFacilitiesScreen";
+import NewsDetailScreen from "./Screens/NewsDetailScreen"
 
 // firebase
 
@@ -36,6 +37,9 @@ const App = () => {
           component={HomeScreen}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="NewsDetail" 
+        component={NewsDetailScreen} />
+
         
         {/* <Stack.Screen
           name="GetStartedScreen"
