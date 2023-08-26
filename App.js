@@ -11,6 +11,7 @@ import Symptomquestionnaire from "./Screens/Symptomquestionnaire";
 import DiagnosisResultScreen from "./Screens/DiagnosisResultScreen";
 import MedicalFacilitiesScreen from "./Screens/MedicalFacilitiesScreen";
 import NewsDetailScreen from "./Screens/NewsDetailScreen"
+import DiagnosisInfoScreen from "./Screens/DiagnosisInfoScreen";
 
 // firebase
 
@@ -70,6 +71,12 @@ const App = () => {
         name="DiagnosisResult"
         component={DiagnosisResultScreen}
         options={{headerShown: false}} />
+
+        <Stack.Screen
+          name="DiagnosisInfoScreen"
+          component={DiagnosisInfoScreen}
+          options={{ headerShown: false }}
+        />
 
 
          
