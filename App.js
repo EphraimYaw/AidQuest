@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {useFonts} from "expo-font";
-import SplashScreen from "./Screens/SplashScreen";
-import GetStartedScreen from "./Screens/GetStartedScreen";
-import AuthenticationScreen from "./Screens/AuthenticationScreen";
+// import SplashScreen from "./Screens/SplashScreen";
+// import GetStartedScreen from "./Screens/GetStartedScreen";
+// import AuthenticationScreen from "./Screens/AuthenticationScreen";
 import HomeScreen from "./Screens/HomeScreen";
 import SymptomCheckerScreen from "./Screens/SymptomCheckerScreen";
 import Symptomquestionnaire from "./Screens/Symptomquestionnaire";
@@ -32,13 +32,13 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
+          name="HomeScreen"
+          component={HomeScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="GetStartedScreen"
           component={GetStartedScreen}
           options={{headerShown: false}}
@@ -47,12 +47,12 @@ const App = () => {
           name="AuthenticationScreen"
           component={AuthenticationScreen}
           options={{headerShown: false}}
-        />
-    <Stack.Screen
+        /> */}
+    {/* <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
           options={{headerShown: false}}
-        />
+        /> */}
 
         <Stack.Screen name="NewsDetail" 
         component={NewsDetailScreen}

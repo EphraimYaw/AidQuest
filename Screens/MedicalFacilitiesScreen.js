@@ -5,14 +5,16 @@ import * as Location from 'expo-location';
 import Carousel from 'react-native-snap-carousel';
 import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
 
-const apiKey = 'AIzaSyCa_bWN-0wh_Zishi1-Fea2HjA6hkG0mYI'; 
+const apiKey = 'AIzaSyCa_bWN-0wh_Zishi1-Fea2HjA6hkG0mYI';
 
-import categories from '../Components/healthcategories.json'; // Adjust the path
+// Adjust the path to your JSON file containing health categories
+import categories from '../Components/healthcategories.json';
 
 export default function App() {
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState(null);
   const [healthFacilities, setHealthFacilities] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -28,16 +30,18 @@ export default function App() {
       if (coords) {
         let { longitude, latitude } = coords;
 
+        const addressResponse = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+        
+        setAddress(addressResponse.length > 0 ? addressResponse[0] : null);
+
         const response = await fetch(
           `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&keyword=clinic&key=${apiKey}`
         );
         const data = await response.json();
-
         setHealthFacilities(data.results);
-
-        // Fetch and set the address using reverse geocoding
-        const addressResponse = await Location.reverseGeocodeAsync({ latitude, longitude });
-        setAddress(addressResponse.length > 0 ? addressResponse[0] : null);
       }
     })();
   }, []);
@@ -75,11 +79,14 @@ export default function App() {
         <View style={styles.currentLocationContainer}>
           <MaterialIcons name="location-on" size={16} style={styles.locationIcon} />
           <Text style={styles.currentLocationText}>
-            {address ? `${address.subregion}, ${address.region}` : 'Fetching address...'}
+            {address ? `${address.subregion},` : 'Fetching address...'}
           </Text>
         </View>
 
-        <Text style={styles.carouselCaption}>Explore</Text>
+        <Text style={styles.carouselCaption}>
+          {selectedCategory ? `${selectedCategory} Near You` : 'Places Near You'}
+        </Text>
+
         <Carousel
           data={healthFacilities}
           renderItem={HealthFacilityCard}
@@ -87,18 +94,21 @@ export default function App() {
           itemWidth={200}
         />
 
-<View style={styles.textCarouselContainer}>
+        <View style={styles.textCarouselContainer}>
           <Carousel
             data={categories}
             renderItem={({ item }) => (
               <View style={styles.textCarouselItem}>
-                <Text style={styles.textCarouselTextWrapper}>
+                <Text
+                  style={styles.textCarouselTextWrapper}
+                  onPress={() => setSelectedCategory(item.name)}
+                >
                   <Text style={styles.textCarouselText}>{item.name}</Text>
                 </Text>
               </View>
             )}
             sliderWidth={300}
-            itemWidth={100} // Adjust the item width as needed
+            itemWidth={100}
           />
         </View>
 
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textCarouselTextWrapper: {
-    width: 200, // Adjust the width as needed
+    width: 200,
     padding: 20,
   },
   textCarouselText: {
@@ -186,6 +196,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-
-
