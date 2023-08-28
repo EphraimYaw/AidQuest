@@ -1,0 +1,57 @@
+[
+    {
+      "name": "Hospital"
+    },
+    {
+      "name": "Clinic"
+    },
+    {
+      "name": "Urgent Care Center"
+    },
+    {
+      "name": "Medical Center"
+    },
+    {
+      "name": "Maternity Clinic"
+    },
+    {
+      "name": "Dental Clinic"
+    },
+    {
+      "name": "Eye Clinic"
+    },
+    {
+      "name": "Rehabilitation Center"
+    },
+    {
+      "name": "Cancer Treatment Center"
+    },
+    {
+      "name": "Mental Health Clinic"
+    },
+    {
+      "name": "Diagnostic Center"
+    },
+    {
+      "name": "Specialty Clinic"
+    },
+    {
+      "name": "Children's Hospital"
+    },
+    {
+      "name": "Geriatric Care Facility"
+    },
+    {
+      "name": "Ambulatory Surgery Center"
+    },
+    {
+      "name": "Pharmacy"
+    },
+    {
+      "name": "Home Health Care"
+    },
+    {
+      "name": "Hospice Care"
+    }
+  ]
+  

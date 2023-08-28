@@ -104,6 +104,10 @@ const HomeScreen = () => {
 				{/* Add weather container content */}
 
 				<View style={styles.squarecontainer}>
+				<Image
+    source={require('../assets/Person with a cold-pana.png')} // Update with the path to your image
+    style={styles.squareImage}
+  />
 					<Text style={styles.caption}>
 						Don't let your symptoms go unchecked
 					</Text>
@@ -230,106 +234,15 @@ newsImage: {
     color: 'black', // Change text color to black
     marginTop: 4,
   },
+  
+  squareImage: {
+    width: '100%', // Make sure the image takes the full width of the container
+    height: 10,   // Set the desired height of the image
+    resizeMode: 'cover', // Use 'cover' to ensure the image fits and covers the container
+    borderRadius: 20, // Apply a border radius if desired
+    marginBottom: 10, // Add margin at the bottom to create spacing between image and text
+  },
 
-
-
-// const styles = StyleSheet.create({
-// 	container: {
-// 		flex: 1,
-// 		backgroundColor: "#F6F8FF", // Update to your light gray color
-// 	},
-// 	header: {
-// 		flexDirection: "row",
-// 		alignItems: "center",
-// 		paddingHorizontal: 16,
-// 		paddingTop: 60,
-// 		justifyContent: "space-between",
-// 	},
-// 	menuButton: {
-// 		padding: 2,
-// 		borderRadius: 8,
-// 		borderColor: "#D3D3D3", // Update to your light gray color
-// 		borderWidth: 0.5,
-// 	},
-// 	content: {
-// 		flex: 1,
-// 		paddingHorizontal: 16,
-// 		paddingBottom: 16,
-// 	},
-// 	greeting: {
-// 		fontSize: 32,
-// 		fontWeight: "bold",
-// 		marginTop: 24,
-// 	},
-// 	lightText: {
-// 		fontSize: 14,
-// 		color: "#888888", // Update to your teal color
-// 		marginBottom: 24,
-// 	},
-// 	squarecontainer: {
-// 		backgroundColor: "white",
-// 		borderRadius: 8,
-// 		padding: 10,
-// 		marginBottom: 24,
-// 		alignItems: "flex-start",
-// 		borderColor: "#D3D3D3", // Update to your light gray color
-// 		borderWidth: 0.5,
-// 	},
-// 	caption: {
-// 		fontSize: 25,
-// 		fontWeight: "bold",
-// 		marginBottom: 16,
-// 		textAlign: "left",
-// 		maxWidth: 200,
-// 	},
-// 	button: {
-// 		backgroundColor: "#007AFF", // Update to your teal color
-// 		padding: 12,
-// 		borderRadius: 8,
-// 		alignItems: "center",
-// 		alignSelf: "flex-start",
-// 		marginTop: -5,
-// 	},
-// 	buttonText: {
-// 		color: "#FFFFFF", // Update to your white color
-// 		fontSize: 16,
-// 		fontWeight: "bold",
-// 	},
-// 	newsContainer: {
-// 		marginTop: 0,
-// 	},
-// 	newsTitle: {
-// 		fontSize: 25,
-// 		fontWeight: "bold",
-// 		marginBottom: 16,
-// 	},
-// 	newsCard: {
-// 		borderRadius: 8,
-// 		overflow: "hidden",
-// 		marginRight: 16,
-// 	},
-// 	newsImage: {
-// 		width: 200,
-// 		height: 120,
-// 		resizeMode: "cover",
-// 	},
-// 	newsOverlay: {
-// 		position: "absolute",
-// 		bottom: 0,
-// 		left: 0,
-// 		right: 0,
-// 		backgroundColor: "rgba(0, 0, 0, 0.5)",
-// 		padding: 8,
-// 	},
-// 	newsItemCaption: {
-// 		fontSize: 14,
-// 		color: "#FFFFFF", // Update to your white color
-// 	},
-// 	newsTime: {
-// 		fontSize: 12,
-// 		color: "#FFFFFF", // Update to your white color
-// 		marginTop: 4,
-	
 });
 
 export default HomeScreen;

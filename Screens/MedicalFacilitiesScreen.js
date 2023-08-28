@@ -5,7 +5,9 @@ import * as Location from 'expo-location';
 import Carousel from 'react-native-snap-carousel';
 import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
 
-const apiKey = 'AIzaSyCa_bWN-0wh_Zishi1-Fea2HjA6hkG0mYI';
+const apiKey = 'AIzaSyCa_bWN-0wh_Zishi1-Fea2HjA6hkG0mYI'; 
+
+import categories from '../Components/healthcategories.json'; // Adjust the path
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -84,9 +86,31 @@ export default function App() {
           sliderWidth={300}
           itemWidth={200}
         />
+
+<View style={styles.textCarouselContainer}>
+          <Carousel
+            data={categories}
+            renderItem={({ item }) => (
+              <View style={styles.textCarouselItem}>
+                <Text style={styles.textCarouselTextWrapper}>
+                  <Text style={styles.textCarouselText}>{item.name}</Text>
+                </Text>
+              </View>
+            )}
+            sliderWidth={300}
+            itemWidth={100} // Adjust the item width as needed
+          />
+        </View>
+
+        <Text style={styles.carouselCaption}>Places Near You</Text>
+        <Carousel
+          data={healthFacilities}
+          renderItem={HealthFacilityCard}
+          sliderWidth={300}
+          itemWidth={200}
+        />
       </View>
       <CustomNavBar />
-
     </View>
   );
 }
@@ -119,7 +143,7 @@ const styles = StyleSheet.create({
   },
   carouselCaption: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: '600',
     marginTop: 20,
     marginBottom: 10,
@@ -141,10 +165,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
-  healthFacilityAddress: {                                                                                                                                        
+  healthFacilityAddress: {
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
     color: 'gray',
     marginTop: 5,
   },
+  textCarouselItem: {
+    padding: 2,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  textCarouselTextWrapper: {
+    width: 200, // Adjust the width as needed
+    padding: 20,
+  },
+  textCarouselText: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 16,
+    marginTop: 10,
+  },
 });
+
+
+

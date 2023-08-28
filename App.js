@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {useFonts} from "expo-font";
-// import SplashScreen from "./Screens/SplashScreen";
-// import GetStartedScreen from "./Screens/GetStartedScreen";
-// import AuthenticationScreen from "./Screens/AuthenticationScreen";
+import SplashScreen from "./Screens/SplashScreen";
+import GetStartedScreen from "./Screens/GetStartedScreen";
+import AuthenticationScreen from "./Screens/AuthenticationScreen";
 import HomeScreen from "./Screens/HomeScreen";
 import SymptomCheckerScreen from "./Screens/SymptomCheckerScreen";
 import Symptomquestionnaire from "./Screens/Symptomquestionnaire";
@@ -32,31 +32,32 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
+          name="SplashScreen"
+          component={SplashScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="NewsDetail" 
-        component={NewsDetailScreen} />
-
-        
-        {/* <Stack.Screen
+        <Stack.Screen
           name="GetStartedScreen"
           component={GetStartedScreen}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="AuthenticationScreen"
           component={AuthenticationScreen}
           options={{headerShown: false}}
-        /> */}
-		{/* <Stack.Screen
+        />
+    <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
           options={{headerShown: false}}
-        /> */}
+        />
+
+        <Stack.Screen name="NewsDetail" 
+        component={NewsDetailScreen}
+        options={{headerShown: false}} />
+
         <Stack.Screen
           name="Symptomquestionnaire"
           component={Symptomquestionnaire}
@@ -77,12 +78,6 @@ const App = () => {
           component={DiagnosisInfoScreen}
           options={{ headerShown: false }}
         />
-
-
-         
-        
-        
-      
         <Stack.Screen
           name="MedicalFacilities"
           component={MedicalFacilitiesScreen}
