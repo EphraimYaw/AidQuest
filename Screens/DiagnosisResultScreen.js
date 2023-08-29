@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import CustomNavBar from '../Components/Customnavbar'; // Adjust the import path
+
 
 const DiagnosisResultScreen = ({ route }) => {
   const { diagnosisResult } = route.params;
@@ -31,6 +33,8 @@ const DiagnosisResultScreen = ({ route }) => {
           </View>
         ))}
       </ScrollView>
+      <CustomNavBar />
+
     </View>
   );
 };

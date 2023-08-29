@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, Button, Alert, ActivityIndicator, FlatList } from 'react-native';
 
-const DiagnosisInfoScreen = () => {
+const DiagnosisInfoScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedIssues, setSelectedIssues] = useState([]);
@@ -13,7 +13,7 @@ const DiagnosisInfoScreen = () => {
     setIsLoading(true);
 
     try {
-      const apiUrl = `https://healthservice.priaid.ch/issues?token=YOUR_TOKEN&format=json&language=en-gb&name=${searchQuery}`;
+      const apiUrl = `https://healthservice.priaid.ch/issues?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRlcGdyb3VwMDNAZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI5NDY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy92ZXJzaW9uIjoiMTA5IiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9saW1pdCI6IjEwMCIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbWVtYmVyc2hpcCI6IkJhc2ljIiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9sYW5ndWFnZSI6ImVuLWdiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjA5OS0xMi0zMSIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbWVtYmVyc2hpcHN0YXJ0IjoiMjAyMy0wNC0wNyIsImlzcyI6Imh0dHBzOi8vYXV0aHNlcnZpY2UucHJpYWlkLmNoIiwiYXVkIjoiaHR0cHM6Ly9oZWFsdGhzZXJ2aWNlLnByaWFpZC5jaCIsImV4cCI6MTY5MzMxMzMzMywibmJmIjoxNjkzMzA2MTMzfQ.StsVKyeI6b_53ksWfmkdv0-xOZDlY1E36mLTeeWdUJo&format=json&language=en-gb&name=${searchQuery}`;
       const response = await fetch(apiUrl);
       const data = await response.json();
 
@@ -36,7 +36,7 @@ const DiagnosisInfoScreen = () => {
 
     try {
       const issueIds = selectedIssues.join(',');
-      const apiUrl = `https://healthservice.priaid.ch/issues/${issueIds}/info?token=YOUR_TOKEN&language=en-gb`;
+      const apiUrl = `https://healthservice.priaid.ch/issues/${issueIds}/info?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRlcGdyb3VwMDNAZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI5NDY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy92ZXJzaW9uIjoiMTA5IiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9saW1pdCI6IjEwMCIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbWVtYmVyc2hpcCI6IkJhc2ljIiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9sYW5ndWFnZSI6ImVuLWdiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjA5OS0xMi0zMSIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbWVtYmVyc2hpcHN0YXJ0IjoiMjAyMy0wNC0wNyIsImlzcyI6Imh0dHBzOi8vYXV0aHNlcnZpY2UucHJpYWlkLmNoIiwiYXVkIjoiaHR0cHM6Ly9oZWFsdGhzZXJ2aWNlLnByaWFpZC5jaCIsImV4cCI6MTY5MzMxNDQ5NSwibmJmIjoxNjkzMzA3Mjk1fQ.-glWGDyOr9RpjpAvZl8S9Dns_lBH4SknbWMAUNAW7os&language=en-gb`;
       const response = await fetch(apiUrl);
       const data = await response.json();
 
@@ -44,6 +44,9 @@ const DiagnosisInfoScreen = () => {
       if (typeof data === 'object' && !Array.isArray(data)) {
         // Handle the issue information as needed
         setIssueInfo(data);
+
+        // Navigate to the IssuesInfoScreen
+        navigation.navigate('IssuesInfoScreen', { issueInfo: data });
       } else {
         console.error('Unexpected response format for issue info:', data);
       }
@@ -54,7 +57,6 @@ const DiagnosisInfoScreen = () => {
       setIsLoading(false);
     }
   };
-
   // Function to handle selecting/deselecting issues
   const toggleIssueSelection = (issueId) => {
     if (selectedIssues.includes(issueId)) {
@@ -109,25 +111,12 @@ const DiagnosisInfoScreen = () => {
         onPress={fetchIssueInfo}
         disabled={selectedIssues.length === 0}
       />
-
-      {/* Display issue info (you can customize this section) */}
-      {issueInfo && (
-        <ScrollView>
-          <Text style={styles.issueInfo}>
-            Description: {issueInfo.Description}
-          </Text>
-          <Text style={styles.issueInfo}>
-            Medical Condition: {issueInfo.MedicalCondition}
-          </Text>
-          <Text style={styles.issueInfo}>
-            Possible Symptoms: {issueInfo.PossibleSymptoms}
-          </Text>
-          <Text style={styles.issueInfo}>
-            Treatment Description: {issueInfo.TreatmentDescription}
-          </Text>
-        </ScrollView>
-      )}
+      
+      
     </View>
+    
+
+     
   );
 };
 
@@ -161,10 +150,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 10,
-    marginBottom: 10,
-  },
-  issueInfo: {
-    fontSize: 16,
     marginBottom: 10,
   },
 });

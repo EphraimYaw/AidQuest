@@ -46,7 +46,7 @@ const AuthenticationScreen = () => {
 		}
 
 		// Navigate to the Home screen
-		// navigation.navigate("HomeScreen");
+		navigation.navigate("HomeScreen");
 	};
 
 	const handleSignInWithGoogle = () => {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#FFFFFF",
 		paddingHorizontal: 20,
-		marginTop: 160,
+		marginTop: 100,
 	},
 	title: {
 		fontSize: 24,

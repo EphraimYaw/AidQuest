@@ -105,7 +105,7 @@ const HomeScreen = () => {
 
 				<View style={styles.squarecontainer}>
 				<Image
-    source={require('../assets/Person with a cold-pana.png')} // Update with the path to your image
+    source={require('../assets/Personwithacold-pana.png')} // Update with the path to your image
     style={styles.squareImage}
   />
 					<Text style={styles.caption}>
